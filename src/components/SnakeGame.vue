@@ -87,13 +87,10 @@ const {
   currentSpeed,
   startGame,
   pauseGame,
-  initGame,
   changeDirection
 } = useSnakeGame()
 
 let ctx: CanvasRenderingContext2D | null = null
-let animationFrame: number | null = null
-let previousFoodPosition = { x: food.position.x, y: food.position.y }
 
 // 触摸控制相关变量
 let touchStartX: number = 0
@@ -112,7 +109,7 @@ onMounted(async () => {
 function startAnimation() {
   function animate() {
     draw()
-    animationFrame = requestAnimationFrame(animate)
+    requestAnimationFrame(animate)
   }
   animate()
 }
@@ -199,57 +196,57 @@ function drawSnake() {
     
     if (index === 0) {
       // 蛇头 - 创建发光的渐变效果
-      const headGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius)
+      const headGradient = ctx!.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius)
       headGradient.addColorStop(0, '#66ff66')
       headGradient.addColorStop(0.7, '#4CAF50')
       headGradient.addColorStop(1, '#2E7D32')
       
-      ctx.fillStyle = headGradient
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2)
-      ctx.fill()
+      ctx!.fillStyle = headGradient
+      ctx!.beginPath()
+      ctx!.arc(centerX, centerY, radius, 0, Math.PI * 2)
+      ctx!.fill()
       
       // 蛇头内圈光晕
-      const innerGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 0.6)
+      const innerGradient = ctx!.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 0.6)
       innerGradient.addColorStop(0, 'rgba(102, 255, 102, 0.8)')
       innerGradient.addColorStop(1, 'rgba(102, 255, 102, 0)')
-      ctx.fillStyle = innerGradient
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, radius * 0.6, 0, Math.PI * 2)
-      ctx.fill()
+      ctx!.fillStyle = innerGradient
+      ctx!.beginPath()
+      ctx!.arc(centerX, centerY, radius * 0.6, 0, Math.PI * 2)
+      ctx!.fill()
       
       // 添加蛇头边框
-      ctx.strokeStyle = '#66ff66'
-      ctx.lineWidth = 2
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2)
-      ctx.stroke()
+      ctx!.strokeStyle = '#66ff66'
+      ctx!.lineWidth = 2
+      ctx!.beginPath()
+      ctx!.arc(centerX, centerY, radius, 0, Math.PI * 2)
+      ctx!.stroke()
       
     } else {
       // 蛇身 - 渐变色和发光效果
-      const bodyGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius)
+      const bodyGradient = ctx!.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius)
       const alpha = Math.max(0.4, 1 - index * 0.05) // 越靠后越透明
       bodyGradient.addColorStop(0, `rgba(139, 195, 74, ${alpha})`)
       bodyGradient.addColorStop(0.7, `rgba(104, 159, 56, ${alpha * 0.8})`)
       bodyGradient.addColorStop(1, `rgba(69, 90, 42, ${alpha * 0.6})`)
       
-      ctx.fillStyle = bodyGradient
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, radius * 0.9, 0, Math.PI * 2)
-      ctx.fill()
+      ctx!.fillStyle = bodyGradient
+      ctx!.beginPath()
+      ctx!.arc(centerX, centerY, radius * 0.9, 0, Math.PI * 2)
+      ctx!.fill()
       
       // 蛇身内部高光
-      ctx.fillStyle = `rgba(179, 229, 94, ${alpha * 0.3})`
-      ctx.beginPath()
-      ctx.arc(centerX - 2, centerY - 2, radius * 0.4, 0, Math.PI * 2)
-      ctx.fill()
+      ctx!.fillStyle = `rgba(179, 229, 94, ${alpha * 0.3})`
+      ctx!.beginPath()
+      ctx!.arc(centerX - 2, centerY - 2, radius * 0.4, 0, Math.PI * 2)
+      ctx!.fill()
       
       // 蛇身边框
-      ctx.strokeStyle = `rgba(139, 195, 74, ${alpha * 0.7})`
-      ctx.lineWidth = 1
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, radius * 0.9, 0, Math.PI * 2)
-      ctx.stroke()
+      ctx!.strokeStyle = `rgba(139, 195, 74, ${alpha * 0.7})`
+      ctx!.lineWidth = 1
+      ctx!.beginPath()
+      ctx!.arc(centerX, centerY, radius * 0.9, 0, Math.PI * 2)
+      ctx!.stroke()
     }
   })
 }
@@ -406,13 +403,13 @@ function drawParticles() {
   
   particles.forEach(particle => {
     const alpha = particle.life / particle.maxLife
-    ctx.globalAlpha = alpha
-    ctx.fillStyle = particle.color
-    ctx.beginPath()
-    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-    ctx.fill()
+    ctx!.globalAlpha = alpha
+    ctx!.fillStyle = particle.color
+    ctx!.beginPath()
+    ctx!.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
+    ctx!.fill()
   })
-  ctx.globalAlpha = 1
+  ctx!.globalAlpha = 1
 }
 
 // 触摸控制函数

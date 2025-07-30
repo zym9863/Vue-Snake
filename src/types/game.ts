@@ -12,19 +12,23 @@ export interface Food {
   position: Position
 }
 
-export enum Direction {
-  UP = 'UP',
-  DOWN = 'DOWN',
-  LEFT = 'LEFT',
-  RIGHT = 'RIGHT'
-}
+export const Direction = {
+  UP: 'UP',
+  DOWN: 'DOWN',
+  LEFT: 'LEFT',
+  RIGHT: 'RIGHT'
+} as const
 
-export enum GameState {
-  WAITING = 'WAITING',
-  PLAYING = 'PLAYING',
-  PAUSED = 'PAUSED',
-  GAME_OVER = 'GAME_OVER'
-}
+export type Direction = typeof Direction[keyof typeof Direction]
+
+export const GameState = {
+  WAITING: 'WAITING',
+  PLAYING: 'PLAYING',
+  PAUSED: 'PAUSED',
+  GAME_OVER: 'GAME_OVER'
+} as const
+
+export type GameState = typeof GameState[keyof typeof GameState]
 
 export interface GameScore {
   current: number
